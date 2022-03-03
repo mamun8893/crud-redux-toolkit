@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getPost } from "../redux/features/postSlice";
 
 const Home = () => {
   const [postId, setPostId] = useState();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, post } = useSelector((state) => ({ ...state.app }));
 
   const handleChange = (e) => {
     setPostId(e.target.value);
   };
   const fatchUserPost = () => {
-    console.log(postId);
+    if (!postId) {
+      alert("Please Provide an ID");
+    } else {
+      dispatch(getPost({ postId }));
+    }
   };
   const handleNavigate = () => {
     navigate("/create-post");

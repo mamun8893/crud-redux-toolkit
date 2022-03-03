@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const getPost = createAsyncThunk("post/getPost", async ({ id }) => {
-  return fetch(`https://jsonplaceholder.typicode.com/posts/${id}`).then((res) =>
-    res.json()
+export const getPost = createAsyncThunk("post/getPost", async ({ postId }) => {
+  return fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`).then(
+    (res) => res.json()
   );
 });
 
