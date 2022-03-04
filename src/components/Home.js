@@ -10,7 +10,11 @@ const Home = () => {
   const [postId, setPostId] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, post } = useSelector((state) => ({ ...state.app }));
+  const { loading, post, body, edit } = useSelector((state) => ({
+    ...state.app,
+  }));
+
+  console.log(post);
 
   const handleChange = (e) => {
     setPostId(e.target.value);
@@ -48,7 +52,11 @@ const Home = () => {
         </Form>
         <br />
         <br />
-        {loading ? <LoadingCard /> : <>{post.userId && <Post post={post} />}</>}
+        {loading ? (
+          <LoadingCard />
+        ) : (
+          <>{post.id && <Post post={post} edit={edit} body={body} />}</>
+        )}
       </div>
     </div>
   );
