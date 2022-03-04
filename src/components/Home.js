@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost } from "../redux/features/postSlice";
+import { getPost, deletePost } from "../redux/features/postSlice";
+import LoadingCard from "./LoadingCard";
 
 const Home = () => {
   const [postId, setPostId] = useState();
@@ -23,6 +24,7 @@ const Home = () => {
   const handleNavigate = () => {
     navigate("/create-post");
   };
+  //   console.log(post);
 
   return (
     <div>
@@ -43,6 +45,32 @@ const Home = () => {
             Create User Post
           </Button>
         </Form>
+        <br />
+        <br />
+        {loading ? (
+          <LoadingCard />
+        ) : (
+          <>
+            {post.userId && (
+              <div className="d-flex justify-content-around">
+                <Card style={{ width: "25rem" }}>
+                  <Card.Body>
+                    <Card.Title>{post.title}</Card.Title>
+                    <Card.Text>{post.body}</Card.Text>
+                    <Button variant="primary">Edit</Button>
+                    <Button
+                      variant="danger"
+                      className="ms-2"
+                      onClick={() => dispatch(deletePost({ postId: post.id }))}
+                    >
+                      Delete
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
