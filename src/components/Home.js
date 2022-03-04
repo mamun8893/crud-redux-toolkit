@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost, deletePost } from "../redux/features/postSlice";
 import LoadingCard from "./LoadingCard";
+import Post from "./Post";
 
 const Home = () => {
   const [postId, setPostId] = useState();
@@ -47,30 +48,7 @@ const Home = () => {
         </Form>
         <br />
         <br />
-        {loading ? (
-          <LoadingCard />
-        ) : (
-          <>
-            {post.userId && (
-              <div className="d-flex justify-content-around">
-                <Card style={{ width: "25rem" }}>
-                  <Card.Body>
-                    <Card.Title>{post.title}</Card.Title>
-                    <Card.Text>{post.body}</Card.Text>
-                    <Button variant="primary">Edit</Button>
-                    <Button
-                      variant="danger"
-                      className="ms-2"
-                      onClick={() => dispatch(deletePost({ postId: post.id }))}
-                    >
-                      Delete
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </div>
-            )}
-          </>
-        )}
+        {loading ? <LoadingCard /> : <>{post.userId && <Post post={post} />}</>}
       </div>
     </div>
   );

@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createPost } from "../redux/features/postSlice";
+import LoadingCard from "./LoadingCard";
+import Post from "./Post";
 
 const CreatePost = () => {
   const [values, setValues] = useState({ title: "", body: "" });
+  const [showpost, setShowpost] = useState(false);
   const { title, body } = values;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { post, loading } = useSelector((state) => ({ ...state.app }));
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
+    dispatch(createPost({ values }));
+    setShowpost(true);
     setValues({ title: "", body: "" });
   };
   return (
@@ -44,6 +53,17 @@ const CreatePost = () => {
             Go Back
           </Button>
         </Form>
+        {loading ? (
+          <LoadingCard className="mt-4" />
+        ) : (
+          <>
+            {showpost && (
+              <div className="show-post mt-4">
+                <Post post={post} />
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
